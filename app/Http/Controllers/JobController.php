@@ -27,13 +27,15 @@ class JobController extends Controller
     // @route Get /job/create
     public function create(): View
     {
-        return view('jobs.create');
+        $user = Auth::user();
+        return view('jobs.create')->with('user', $user);
     }
 
     // @desc Save job to database
     // @route POST /job
     public function store(Request $request): RedirectResponse
     {
+        $user_id = Auth::user()->id;
 
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
@@ -56,9 +58,8 @@ class JobController extends Controller
             'company_website' => 'nullable|url'
         ]);
 
-        // Hardcoded user ID
-
-        $validatedData['user_id'] = 1;
+        // user id
+        $validatedData['user_id'] = $user_id;
 
         // Check for image
         if ($request->hasFile('company_logo')) {
