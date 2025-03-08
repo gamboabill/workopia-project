@@ -17,7 +17,7 @@
                             <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="{{ Auth::user()->name }}"
                                 class="w-10 h-10 rounded-full">
                         @else
-                            <img src="{{ asset('storage/avatars/default-avatar.png') }}" alt="{{ Auth::user()->name }}"
+                            <img src="{{ asset('images/default-avatar.png') }}" alt="{{ Auth::user()->name }}"
                                 class="w-10 h-10 rounded-full">
                         @endif
                     </a>
