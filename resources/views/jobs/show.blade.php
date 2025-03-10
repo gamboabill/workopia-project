@@ -151,8 +151,12 @@
                 Company Info
             </h3>
             @if ($job->company_logo)
-                <img src="{{ asset('storage/' . $job->company_logo) }}" alt={{ $job->company_name }}"
-                    class="w-full rounded-lg mb-4 m-auto" />
+                @if ($cloudflare)
+                    <img src="{{ $cloudflare->url . '/' . $job->company_logo }}" alt={{ $job->company_name }}"
+                        class="w-full rounded-lg mb-4 m-auto" />
+                @else
+                    <p>no cloudflare server</p>
+                @endif
             @endif
             <h4 class="text-lg font-bold">{{ $job->company_name }}</h4>
             @if ($job->comapny_description)
@@ -171,7 +175,7 @@
                 </p>
             @else
                 <form method="POST"
-                    action="{{ auth()->user()->bookmarkedJobs()->where('job_id', $job->id)->exists()? route('bookmarks.destroy', $job->id): route('bookmarks.store', $job->id) }}"
+                    action="{{ auth()->user()->bookmarkedJobs()->where('job_id', $job->id)->exists() ? route('bookmarks.destroy', $job->id) : route('bookmarks.store', $job->id) }}"
                     class="mt-10">
                     @csrf
                     @if (auth()->user()->bookmarkedJobs()->where('job_id', $job->id)->exists())

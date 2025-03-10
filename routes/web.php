@@ -9,6 +9,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\ApplicantController;
+use App\Http\Controllers\CloudflareController;
 use App\Http\Controllers\GeocodeController;
 
 
@@ -40,3 +41,8 @@ Route::post('/jobs/{job}/apply', [ApplicantController::class, 'store'])->name('a
 Route::delete('/applicants/{applicant}', [ApplicantController::class, 'destroy'])->name('applicant.destroy')->middleware('auth');
 
 Route::get('/withdraw_application/{id}', [ApplicantController::class, 'withdraw_application'])->name('withdraw_application')->middleware('auth');
+
+
+Route::get('/cloudflare', [CloudflareController::class, 'index'])->name('cloudflare.index');
+Route::post('/cloudflare', [CloudflareController::class, 'store'])->name('cloudflare.store');
+Route::get('/delete_cloudflare/{id}', [CloudflareController::class, 'delete_cloudflare'])->name('delete_cloudflare');

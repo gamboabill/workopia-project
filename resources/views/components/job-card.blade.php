@@ -1,10 +1,16 @@
-@props(['job'])
+@props(['job', 'cloudflare'])
+
 
 <div class="rounded-lg shadow-md bg-white p-4">
     <div class="flex items-center space-between gap-4">
 
         @if ($job->company_logo)
-            <img src="{{ asset('storage/' . $job->company_logo) }}" alt="{{ $job->company_name }}" class="w-14" />
+            @if ($cloudflare)
+                <img src="{{ $cloudflare->url . '/' . $job->company_logo }}" alt="{{ $job->company_name }}"
+                    class="w-14" />
+            @else
+                <p>no cloudflare server</p>
+            @endif
         @endif
 
         <div>

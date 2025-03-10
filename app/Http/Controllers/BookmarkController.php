@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cloudflare;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,11 +16,13 @@ class BookmarkController extends Controller
 
     public function index(): View
     {
+        $cloudflare = Cloudflare::get()->first();
+
         $user = Auth::user();
 
         $bookmarks = $user->bookmarkedJobs()->orderBy('job_user_bookmarks.created_at', 'desc')->paginate(9);
 
-        return view('jobs.bookmarked')->with('bookmarks', $bookmarks);
+        return view('jobs.bookmarked')->with('bookmarks', $bookmarks)->with('cloudflare', $cloudflare);
     }
 
     // @desc Create new bookmark job

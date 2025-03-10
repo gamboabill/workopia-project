@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage; // use for deleting images in the storag
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Models\Job;
 use App\Models\Applicant;
+use App\Models\Cloudflare;
 use Illuminate\Support\Facades\Auth;
 
 class JobController extends Controller
@@ -19,8 +20,9 @@ class JobController extends Controller
     // @route Get /jobs
     public function index(): View
     {
+        $cloudflare = Cloudflare::get()->first();
         $jobs = Job::latest()->paginate(9);
-        return view('jobs.index')->with('jobs', $jobs);
+        return view('jobs.index')->with('jobs', $jobs)->with('cloudflare', $cloudflare);
     }
 
     // @desc Show create job form
@@ -87,6 +89,8 @@ class JobController extends Controller
     // @route Get /jobs/{$id}
     public function show(Job $job): View
     {
+        $cloudflare = Cloudflare::get()->first();
+
         // this is to get the ID of the application incase user wants to withdraw her/his application
 
         $data['application'] = Applicant::select('id') // this is how to get data specifically 
@@ -100,7 +104,7 @@ class JobController extends Controller
             ->where('user_id', auth()->id())
             ->exists();
 
-        return view('jobs.show')->with('job', $job)->with($data);
+        return view('jobs.show')->with('job', $job)->with($data)->with('cloudflare', $cloudflare);
     }
 
     // @desc Show home edit job form
